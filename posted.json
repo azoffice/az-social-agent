@@ -1,4 +1,17 @@
 {
-  "posted": [],
-  "history": []
+  "posted": [
+    "p001"
+  ],
+  "history": [
+    {
+      "id": "p001",
+      "topic": "Xerox AltaLink B81 Series A3 black and white multifunction printer",
+      "at": "2026-11-06 12:35 UTC",
+      "results": {
+        "telegram": "ok",
+        "facebook": "skipped",
+        "instagram": "skipped"
+      }
+    }
+  ]
 }
