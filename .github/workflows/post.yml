@@ -1,0 +1,54 @@
+name: AZ social post
+
+on:
+  schedule:
+    - cron: "30 4 * * 0,1,3,5"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Generate the caption but do not post anywhere"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: az-social-post
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Post
+        env:
+          SHEET_CSV_URL:      ${{ secrets.SHEET_CSV_URL }}
+          GEMINI_API_KEY:     ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL:       ${{ vars.GEMINI_MODEL }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+          FB_PAGE_ID:         ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_TOKEN:      ${{ secrets.FB_PAGE_TOKEN }}
+          IG_USER_ID:         ${{ secrets.IG_USER_ID }}
+          DRY_RUN:            ${{ inputs.dry_run }}
+        run: python post.py
+
+      - name: Save state
+        if: always()
+        run: |
+          if [ -n "$(git status --porcelain posted.json)" ]; then
+            git config user.name  "az-social-agent"
+            git config user.email "actions@users.noreply.github.com"
+            git add posted.json
+            git commit -m "posted $(date -u +%Y-%m-%d)"
+            git push
+          else
+            echo "No state change to commit."
+          fi
