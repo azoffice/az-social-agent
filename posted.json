@@ -1,7 +1,8 @@
 {
   "posted": [
     "p001",
-    "p002"
+    "p002",
+    "p004"
   ],
   "history": [
     {
@@ -18,6 +19,16 @@
       "id": "p002",
       "topic": "Xerox AltaLink C81 Series A3 colour multifunction printer",
       "at": "2026-11-08 05:18 UTC",
+      "results": {
+        "telegram": "ok",
+        "facebook": "skipped",
+        "instagram": "skipped"
+      }
+    },
+    {
+      "id": "p004",
+      "topic": "Canon imageRUNNER ADVANCE 47 Series A3 monochrome multifunction printer",
+      "at": "2026-11-09 05:31 UTC",
       "results": {
         "telegram": "ok",
         "facebook": "skipped",
