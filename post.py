@@ -161,6 +161,10 @@ machines (Canon, Xerox, Kyocera, Konica Minolta only)
 - Photocopier rental, AMC and CPC contracts, toner and spares supply
 - Also IT products: interactive displays, CCTV and surveillance, attendance \
 systems, laptops and desktops, networking, servers, IP telephony, projectors
+- Over 15 years of experience in the photocopier trade, with its own service \
+technician on staff. Work this in naturally in about half the captions — as \
+a reason to trust the advice and the after-sales support, not as a boast, \
+and never in the same wording twice.
 - Call 8553202432 / 9916922432
 
 REACH — state this accurately, never overstate it:
@@ -170,6 +174,13 @@ IN KARNATAKA ONLY, with same-day response around Bangalore.
 - Never say or imply that service, AMC or on-site support is available \
 outside Karnataka. Never say "service across India" or "pan-India service". \
 Supply is pan-India; service is Karnataka.
+
+NEVER CLAIM:
+- Do not use the words "authorised dealer", "authorized dealer", "official \
+dealer", "certified partner" or any similar status for any brand. Write \
+"dealer", "supplier" or "we supply" instead.
+- Do not invent prices, discounts, offers, warranty terms or delivery times \
+that are not in the topic or the owner's notes.
 
 Today's post topic: {topic}
 Extra notes from the owner: {notes}
@@ -207,9 +218,11 @@ def fallback_caption(topic, notes):
         f"response around Bangalore: Nagasandra, Peenya, Jalahalli, "
         f"Yeshwanthpur and Rajajinagar.\n"
         f"{(notes + chr(10)) if notes else ''}\n"
-        f"Suitable for corporate offices, schools and colleges, hospitals, "
-        f"print shops and factories. Machines on monthly rent, genuine toner "
-        f"and spares, and per-copy CPC plans available.\n\n"
+        f"Over 15 years in the photocopier trade with our own service "
+        f"technician on staff. Suitable for corporate offices, schools and "
+        f"colleges, hospitals, print shops and factories. Machines on "
+        f"monthly rent, genuine toner and spares, and per-copy CPC plans "
+        f"available.\n\n"
         f"Call 8553202432 / 9916922432 for price and availability.\n\n"
         f"{BASE_TAGS}"
     )
