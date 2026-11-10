@@ -143,51 +143,74 @@ def pick_row(rows, state):
 AREAS = ("Nagasandra, Peenya, Jalahalli, Yeshwanthpur, Dasarahalli, "
          "Rajajinagar, Nelamangala, Tumkur Road")
 
-BASE_TAGS = ("#Bangalore #Photocopier #XeroxMachine #CanonCopier "
-             "#PhotocopierRental #TonerSupply #AMC #OfficeAutomation "
-             "#Peenya #Nagasandra #Yeshwanthpur #Rajajinagar #BangaloreBusiness")
+CITIES = ("Bangalore, Mysore, Hubli, Mangalore, Belgaum, Chennai, Hyderabad, "
+          "Pune, Mumbai, Delhi NCR, Kolkata, Ahmedabad, Coimbatore")
+
+BASE_TAGS = ("#Photocopier #XeroxMachine #CanonCopier #PhotocopierDealer "
+             "#CopierOnRent #TonerSupplier #AMCService #OfficeAutomation "
+             "#Bangalore #Peenya #Nagasandra #Karnataka #PanIndiaSupply "
+             "#OfficeEquipment #BusinessPrinter")
 
 PROMPT = """You write social media captions for AZ Office Automation, a \
-photocopier and IT products sales and service business in Nagasandra, HMT \
-Layout, Bangalore.
+photocopier and IT products dealer based in Nagasandra, HMT Layout, Bangalore.
 
 Business facts you may use:
 - Brands: Canon, Xerox, Kyocera, Konica Minolta, Fuji Film, Epson
 - New machines (all brands, colour and black & white) and reconditioned \
 machines (Canon, Xerox, Kyocera, Konica Minolta only)
-- Photocopier rental, AMC and CPC contracts, toner and spares supply, \
-on-site repair
+- Photocopier rental, AMC and CPC contracts, toner and spares supply
 - Also IT products: interactive displays, CCTV and surveillance, attendance \
 systems, laptops and desktops, networking, servers, IP telephony, projectors
-- Serves Bangalore and Karnataka
 - Call 8553202432 / 9916922432
+
+REACH — state this accurately, never overstate it:
+- MACHINES AND SPARES ARE SUPPLIED AND DELIVERED ANYWHERE IN INDIA.
+- ON-SITE SERVICE, REPAIR, INSTALLATION AND AMC/CPC CONTRACTS ARE OFFERED \
+IN KARNATAKA ONLY, with same-day response around Bangalore.
+- Never say or imply that service, AMC or on-site support is available \
+outside Karnataka. Never say "service across India" or "pan-India service". \
+Supply is pan-India; service is Karnataka.
 
 Today's post topic: {topic}
 Extra notes from the owner: {notes}
 
-Write ONE caption that is:
-- Opens with a short question a Bangalore office admin would actually type \
-into Google, then answers it directly (Q&A format)
-- Naturally includes real search keywords such as photocopier dealer \
-Bangalore, xerox machine repair, copier on rent, toner supplier, AMC service
-- Mentions two or three of these areas naturally: {areas}
-- 90 to 130 words, plain and factual, no hype, no emoji spam (2-3 emoji maximum)
-- Ends with: a one-line call to action with the phone numbers, then a blank \
-line, then 12-15 hashtags on one line
+Write ONE caption that:
+- Opens with a short question a real buyer would type into Google — for \
+example about price, the best model for their volume, rent vs buy, or where \
+to buy this machine — then answers it directly
+- Uses buyer-intent search keywords naturally: photocopier dealer, \
+photocopier price, copier on rent, xerox machine dealer, toner supplier, \
+AMC service, A3 copier, multifunction printer, reconditioned copier
+- Names the specific model numbers from the topic and notes, since buyers \
+search by model number
+- Says plainly that machines are delivered across India, and that service \
+and AMC cover Karnataka
+- Mentions two or three Bangalore areas naturally for local search: {areas}
+- Mentions one or two other cities it ships to for wider reach: {cities}
+- Names the type of buyer it suits (corporate offices, schools and colleges, \
+hospitals, print shops, factories) so the right reader recognises themselves
+- 110 to 150 words, plain and factual, no hype, 2-3 emoji maximum
+- Ends with: a one-line call to action with both phone numbers, then a blank \
+line, then 12-15 hashtags on one line mixing model, product, city and \
+pan-India tags
 
 Output only the caption text. No preamble, no markdown, no quotation marks."""
 
 
 def fallback_caption(topic, notes):
     return (
-        f"Looking for {topic} in Bangalore?\n\n"
-        f"AZ Office Automation supplies and services Canon, Xerox, Kyocera, "
-        f"Konica Minolta, Fuji Film and Epson machines across {AREAS}. "
-        f"New and reconditioned photocopiers, machines on monthly rent, AMC "
-        f"and CPC contracts, genuine toner and spares, and same-day on-site "
-        f"repair by our own technician.\n"
+        f"Looking for {topic}?\n\n"
+        f"AZ Office Automation supplies Canon, Xerox, Kyocera, Konica "
+        f"Minolta, Fuji Film and Epson machines — new and reconditioned — "
+        f"with delivery anywhere in India. On-site installation, service, "
+        f"repair and AMC/CPC contracts across Karnataka, with same-day "
+        f"response around Bangalore: Nagasandra, Peenya, Jalahalli, "
+        f"Yeshwanthpur and Rajajinagar.\n"
         f"{(notes + chr(10)) if notes else ''}\n"
-        f"Call 8553202432 / 9916922432 for a quote today.\n\n"
+        f"Suitable for corporate offices, schools and colleges, hospitals, "
+        f"print shops and factories. Machines on monthly rent, genuine toner "
+        f"and spares, and per-copy CPC plans available.\n\n"
+        f"Call 8553202432 / 9916922432 for price and availability.\n\n"
         f"{BASE_TAGS}"
     )
 
@@ -229,8 +252,17 @@ def gemini_models(key):
             break
 
     def rank(n):
+        """Newest generation first, then small and cheap, then stable.
+
+        Google retires older generations for new keys ('no longer available
+        to new users'), so a high version number is the best predictor that
+        a model will actually answer.
+        """
         low = n.lower()
-        return (0 if "flash" in low else 1,
+        m = re.search(r"(\d+)(?:\.(\d+))?", low)
+        ver = (int(m.group(1)), int(m.group(2) or 0)) if m else (0, 0)
+        return (-ver[0], -ver[1],
+                0 if "flash" in low else 1,
                 0 if ("lite" in low or "8b" in low) else 1,
                 0 if "preview" not in low and "exp" not in low else 1,
                 len(n))
@@ -261,8 +293,9 @@ def make_caption(row):
 
     payload = {
         "contents": [{"parts": [{"text": PROMPT.format(
-            topic=topic, notes=notes or "none", areas=AREAS)}]}],
-        "generationConfig": {"temperature": 0.9, "maxOutputTokens": 800},
+            topic=topic, notes=notes or "none", areas=AREAS,
+            cities=CITIES)}]}],
+        "generationConfig": {"temperature": 0.9, "maxOutputTokens": 1200},
     }
 
     for model in gemini_models(key):
