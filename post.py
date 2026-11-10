@@ -243,9 +243,16 @@ def gemini_models(key):
             if not name or name in found:
                 continue
             low = name.lower()
+            # Only plain text-generation Gemini models: "gemini-<number>...".
+            # The catalogue also lists research, agent, robotics and media
+            # models that advertise generateContent but reject these calls.
+            if not re.match(r"^gemini-\d", low):
+                continue
             if any(w in low for w in ("embedding", "aqa", "imagen", "veo",
                                       "vision", "tts", "image", "audio",
-                                      "live", "native")):
+                                      "live", "native", "robotics",
+                                      "computer-use", "deep-research",
+                                      "antigravity", "thinking", "dialog")):
                 continue
             found.append(name)
         if found:
@@ -256,10 +263,12 @@ def gemini_models(key):
 
         Google retires older generations for new keys ('no longer available
         to new users'), so a high version number is the best predictor that
-        a model will actually answer.
+        a model will answer. The version is read ONLY from the "gemini-N.N"
+        prefix — names also contain dates such as "-09-2026" that must never
+        be mistaken for a version.
         """
         low = n.lower()
-        m = re.search(r"(\d+)(?:\.(\d+))?", low)
+        m = re.match(r"^gemini-(\d+)(?:\.(\d+))?", low)
         ver = (int(m.group(1)), int(m.group(2) or 0)) if m else (0, 0)
         return (-ver[0], -ver[1],
                 0 if "flash" in low else 1,
