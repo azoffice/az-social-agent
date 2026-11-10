@@ -3,7 +3,8 @@
     "p001",
     "p002",
     "p004",
-    "p005"
+    "p005",
+    "p006"
   ],
   "history": [
     {
@@ -40,6 +41,16 @@
       "id": "p005",
       "topic": "Canon imageRUNNER ADVANCE 45 Series A3 monochrome multifunction printer",
       "at": "2026-11-10 08:22 UTC",
+      "results": {
+        "telegram": "ok",
+        "facebook": "ok",
+        "instagram": "ok"
+      }
+    },
+    {
+      "id": "p006",
+      "topic": "Canon imageRUNNER ADVANCE 42 Series A3 monochrome multifunction printer",
+      "at": "2026-11-10 11:13 UTC",
       "results": {
         "telegram": "ok",
         "facebook": "ok",
