@@ -2,7 +2,8 @@
   "posted": [
     "p001",
     "p002",
-    "p004"
+    "p004",
+    "p005"
   ],
   "history": [
     {
@@ -33,6 +34,16 @@
         "telegram": "ok",
         "facebook": "skipped",
         "instagram": "skipped"
+      }
+    },
+    {
+      "id": "p005",
+      "topic": "Canon imageRUNNER ADVANCE 45 Series A3 monochrome multifunction printer",
+      "at": "2026-11-10 08:22 UTC",
+      "results": {
+        "telegram": "ok",
+        "facebook": "ok",
+        "instagram": "ok"
       }
     }
   ]
