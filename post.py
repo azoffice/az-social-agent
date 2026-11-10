@@ -259,20 +259,20 @@ def gemini_models(key):
             break
 
     def rank(n):
-        """Newest generation first, then small and cheap, then stable.
+        """Smallest model first, newest within that size.
 
-        Google retires older generations for new keys ('no longer available
-        to new users'), so a high version number is the best predictor that
-        a model will answer. The version is read ONLY from the "gemini-N.N"
-        prefix — names also contain dates such as "-09-2026" that must never
-        be mistaken for a version.
+        On a free API key the small 'lite' models are the ones with real
+        quota; the flagship models return 429 (no free allowance) or 503
+        (overloaded). So size comes before version. The version is read ONLY
+        from the "gemini-N.N" prefix — names also contain dates such as
+        "-09-2026" that must never be mistaken for a version.
         """
         low = n.lower()
         m = re.match(r"^gemini-(\d+)(?:\.(\d+))?", low)
         ver = (int(m.group(1)), int(m.group(2) or 0)) if m else (0, 0)
-        return (-ver[0], -ver[1],
+        return (0 if ("lite" in low or "8b" in low) else 1,
                 0 if "flash" in low else 1,
-                0 if ("lite" in low or "8b" in low) else 1,
+                -ver[0], -ver[1],
                 0 if "preview" not in low and "exp" not in low else 1,
                 len(n))
 
@@ -282,8 +282,8 @@ def gemini_models(key):
         log("Gemini: ListModels returned nothing usable")
     else:
         log(f"Gemini: {len(order)} model(s) available, trying "
-            f"{', '.join(order[:3])}")
-    return order[:3]
+            f"{', '.join(order[:5])}")
+    return order[:5]
 
 
 def make_caption(row):
@@ -322,10 +322,12 @@ def make_caption(row):
                     pass
             log(f"Gemini {model} attempt {attempt} failed ({status}): "
                 f"{str(body)[:200]}")
-            if status == 404:
-                break          # wrong model name — try the next model
+            # 404 wrong name, 429 no quota on this model, 400 wrong API —
+            # none of these improve by waiting, so move to the next model.
+            if status in (400, 404, 429):
+                break
             if attempt == 1:
-                time.sleep(5)  # rate limit or blip — retry the same model
+                time.sleep(5)  # 503 or a network blip — one retry
 
     log("Caption: falling back to template")
     return fallback_caption(topic, notes)
