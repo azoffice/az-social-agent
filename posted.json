@@ -4,7 +4,8 @@
     "p002",
     "p004",
     "p005",
-    "p006"
+    "p006",
+    "p007"
   ],
   "history": [
     {
@@ -51,6 +52,16 @@
       "id": "p006",
       "topic": "Canon imageRUNNER ADVANCE 42 Series A3 monochrome multifunction printer",
       "at": "2026-11-10 11:13 UTC",
+      "results": {
+        "telegram": "ok",
+        "facebook": "ok",
+        "instagram": "ok"
+      }
+    },
+    {
+      "id": "p007",
+      "topic": "Canon imageCLASS MF465dw II desktop multifunction printer",
+      "at": "2026-11-11 05:26 UTC",
       "results": {
         "telegram": "ok",
         "facebook": "ok",
