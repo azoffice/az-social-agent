@@ -5,7 +5,8 @@
     "p004",
     "p005",
     "p006",
-    "p007"
+    "p007",
+    "p010"
   ],
   "history": [
     {
@@ -62,6 +63,16 @@
       "id": "p007",
       "topic": "Canon imageCLASS MF465dw II desktop multifunction printer",
       "at": "2026-11-11 05:26 UTC",
+      "results": {
+        "telegram": "ok",
+        "facebook": "ok",
+        "instagram": "ok"
+      }
+    },
+    {
+      "id": "p010",
+      "topic": "Canon imageRUNNER ADVANCE C5635 C5640 C5650 C5660 colour copier",
+      "at": "2026-11-13 05:27 UTC",
       "results": {
         "telegram": "ok",
         "facebook": "ok",
