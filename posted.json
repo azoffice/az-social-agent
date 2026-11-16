@@ -7,7 +7,8 @@
     "p006",
     "p007",
     "p010",
-    "p011"
+    "p011",
+    "p017"
   ],
   "history": [
     {
@@ -84,6 +85,16 @@
       "id": "p011",
       "topic": "Xerox AltaLink B8000 Series A3 black and white multifunction printer",
       "at": "2026-11-15 05:22 UTC",
+      "results": {
+        "telegram": "ok",
+        "facebook": "ok",
+        "instagram": "ok"
+      }
+    },
+    {
+      "id": "p017",
+      "topic": "Canon imageRUNNER ADVANCE 6255 6265 6275 A3 monochrome MFP",
+      "at": "2026-11-16 05:48 UTC",
       "results": {
         "telegram": "ok",
         "facebook": "ok",
