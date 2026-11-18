@@ -8,7 +8,8 @@
     "p007",
     "p010",
     "p011",
-    "p017"
+    "p017",
+    "p018"
   ],
   "history": [
     {
@@ -95,6 +96,16 @@
       "id": "p017",
       "topic": "Canon imageRUNNER ADVANCE 6255 6265 6275 A3 monochrome MFP",
       "at": "2026-11-16 05:48 UTC",
+      "results": {
+        "telegram": "ok",
+        "facebook": "ok",
+        "instagram": "ok"
+      }
+    },
+    {
+      "id": "p018",
+      "topic": "Canon imageRUNNER ADVANCE 4025 4035 4045 4051 A3 monochrome printer",
+      "at": "2026-11-18 05:29 UTC",
       "results": {
         "telegram": "ok",
         "facebook": "ok",
