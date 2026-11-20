@@ -1,15 +1,6 @@
 {
   "posted": [
-    "p001",
-    "p002",
-    "p004",
-    "p005",
-    "p006",
-    "p007",
-    "p010",
-    "p011",
-    "p017",
-    "p018"
+    "p001"
   ],
   "history": [
     {
@@ -106,6 +97,16 @@
       "id": "p018",
       "topic": "Canon imageRUNNER ADVANCE 4025 4035 4045 4051 A3 monochrome printer",
       "at": "2026-11-18 05:29 UTC",
+      "results": {
+        "telegram": "ok",
+        "facebook": "ok",
+        "instagram": "ok"
+      }
+    },
+    {
+      "id": "p001",
+      "topic": "Xerox AltaLink B81 Series A3 black and white multifunction printer",
+      "at": "2026-11-20 05:30 UTC",
       "results": {
         "telegram": "ok",
         "facebook": "ok",
